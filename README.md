@@ -12,13 +12,26 @@ your accounts:** 2 placeholder edits → push → enable Pages → Formspree →
 ---
 
 ## Step 1 — Edit two placeholders in `index.html`
-Search the file for these and replace:
+Search-and-replace these across the repo:
 
-| Placeholder | Replace with |
-|-------------|--------------|
-| `REPLACE_WITH_FORM_ENDPOINT` | your Formspree form URL (Step 4) |
-| `REPLACE_WITH_CONTACT` | a real reply email (appears in the footer) |
-| `REPLACE_PER_CHANNEL` | leave as-is in the repo; you'll set `utm_source` per shared link (Step 6) |
+| Placeholder | Where | Replace with |
+|-------------|-------|--------------|
+| `REPLACE_WITH_CONTACT` | **all 5 pages** | a real reply email (footer + legal pages) |
+| `REPLACE_WITH_FORM_ENDPOINT` | `index.html` | your Formspree form URL (Step 4) |
+| `REPLACE_PER_CHANNEL` | `index.html` | leave as-is; set `utm_source` per shared link (Step 6) |
+| `[EFFECTIVE DATE]` | `privacy.html`, `terms.html`, `accessibility.html` | the date you publish |
+| `[GOVERNING-LAW STATE]` | `terms.html` | your LLC's state |
+
+Quick way to do the contact email across every file:
+```bash
+cd ~/Projects/mpj-waitlist
+grep -rl REPLACE_WITH_CONTACT . | xargs sed -i '' 's/REPLACE_WITH_CONTACT/you@yourdomain.com/g'
+```
+
+**The site has 5 pages** — `index.html` (the landing page) plus theme-matched
+`privacy.html`, `terms.html`, `support.html`, `accessibility.html` (linked from
+the footer, sharing `doc.css`). The legal pages are solid drafts — **have them
+reviewed before you rely on them**, and fill the date/state placeholders above.
 
 Also (the single most important asset): replace the hero placeholder block (the
 `<div class="hero">…</div>`) with a 10-second **screen recording of the Live

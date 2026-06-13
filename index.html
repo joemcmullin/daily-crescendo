@@ -197,7 +197,10 @@
   textarea{resize:vertical}
 
   footer{border-top:1px solid var(--line);padding:40px 0 60px;color:var(--faint);font-size:14px;line-height:1.7}
-  footer .word{margin-bottom:10px;font-size:15px}
+  footer .word{margin-bottom:12px;font-size:15px}
+  .flinks{display:flex;gap:18px;flex-wrap:wrap;margin-bottom:12px}
+  .flinks a{color:var(--muted);text-decoration:none;transition:.2s}
+  .flinks a:hover{color:var(--ink)}
   footer a{color:var(--muted)}
 
   /* responsive */
@@ -418,6 +421,10 @@
 
 <footer><div class="wrap">
   <div class="word"><span class="mk">♪</span> Practice</div>
+  <nav class="flinks">
+    <a href="privacy.html">Privacy</a><a href="terms.html">Terms</a>
+    <a href="support.html">Support</a><a href="accessibility.html">Accessibility</a>
+  </nav>
   Built by Apex Development Studio LLC · pre-launch, not yet on the App Store.<br>
   Questions: <a href="mailto:REPLACE_WITH_CONTACT">REPLACE_WITH_CONTACT</a> · There is no tracking or analytics on this page.
 </div></footer>
