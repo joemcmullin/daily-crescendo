@@ -19,8 +19,11 @@ Search-and-replace these across the repo:
 | `REPLACE_WITH_CONTACT` | **all 5 pages** | a real reply email (footer + legal pages) |
 | `REPLACE_WITH_FORM_ENDPOINT` | `index.html` | your Formspree form URL (Step 4) |
 | `REPLACE_PER_CHANNEL` | `index.html` | leave as-is; set `utm_source` per shared link (Step 6) |
+| `REPLACE_WITH_SITE_URL` | `index.html` (OG/Twitter tags) | your live URL, e.g. `https://yourdomain.app` |
+| `og-image.png` | add a 1200×630 share image at repo root | the social-card image |
 | `[EFFECTIVE DATE]` | `privacy.html`, `terms.html`, `accessibility.html` | the date you publish |
-| `[GOVERNING-LAW STATE]` | `terms.html` | your LLC's state |
+
+> Governing law is set to **Virginia** (Apex Development Studio LLC's registered state, per the lawyer-reviewed ScreenPass docs). The Terms include a binding-arbitration + class-action-waiver clause mirrored from those reviewed docs — **have counsel give the pre-launch arbitration clause and the "founding price" wording a final glance** before you rely on them.
 
 Quick way to do the contact email across every file:
 ```bash
