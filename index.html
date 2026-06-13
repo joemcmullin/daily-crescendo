@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Your practice journal keeps getting abandoned. This one logs itself.</title>
+<meta name="description" content="A music practice tracker with a timer that lives in the Dynamic Island, an AI recap of every session, and your data staying on your device. Pay once. No subscription.">
+<style>
+  :root{--ink:#16161d;--muted:#5b5b66;--bg:#fbfbfd;--card:#fff;--line:#e6e6ec;--accent:#6b3df5;--accent2:#0f9d8c}
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{margin:0;font:17px/1.55 -apple-system,BlinkMacSystemFont,system-ui,sans-serif;color:var(--ink);background:var(--bg)}
+  .wrap{max-width:680px;margin:0 auto;padding:36px 20px 64px}
+  .kicker{font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);font-weight:700;margin:0 0 14px}
+  h1{font-size:31px;line-height:1.14;margin:0 0 14px;letter-spacing:-.01em}
+  .sub{font-size:20px;color:var(--muted);margin:0 0 26px}
+  .hero{aspect-ratio:9/16;max-height:540px;margin:0 auto 14px;background:linear-gradient(160deg,#efeaff,#e6f7f4);border:1px solid var(--line);border-radius:22px;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#8a8a97;text-align:center;padding:24px;gap:10px}
+  .hero .island{background:#0b0b0f;color:#fff;border-radius:22px;padding:10px 18px;font-size:15px;display:inline-flex;gap:10px;align-items:center}
+  .hero .dot{width:9px;height:9px;border-radius:50%;background:var(--accent2);box-shadow:0 0 0 4px rgba(15,157,140,.2)}
+  .cap{font-size:14px;color:#9a9aa6;text-align:center;margin:0 0 26px}
+  ul.benefits{list-style:none;padding:0;margin:0 0 26px}
+  ul.benefits li{padding:12px 0 12px 30px;border-bottom:1px solid var(--line);position:relative}
+  ul.benefits li:before{content:"✓";position:absolute;left:0;color:var(--accent2);font-weight:800}
+  .price{border:1px solid var(--line);border-radius:16px;padding:18px;margin:8px 0 22px;background:var(--card)}
+  .price .row{display:flex;justify-content:space-between;align-items:baseline;padding:6px 0}
+  .price .row b{font-size:18px}
+  .price .row span{color:var(--muted);font-size:15px}
+  .price .note{color:var(--muted);font-size:14px;margin-top:8px;border-top:1px dashed var(--line);padding-top:10px}
+  .cta{display:block;width:100%;padding:17px;border:0;border-radius:13px;background:var(--accent);color:#fff;font-size:18px;font-weight:650;cursor:pointer;letter-spacing:.01em}
+  .cta:active{transform:translateY(1px)}
+  .ctahint{text-align:center;color:var(--muted);font-size:14px;margin:10px 0 0}
+  form{display:none;margin-top:24px;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px}
+  form.show{display:block;animation:f .25s ease}
+  @keyframes f{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+  form h3{margin:0 0 4px;font-size:19px}
+  form p.lead{margin:0 0 14px;color:var(--muted);font-size:15px}
+  label{display:block;margin:16px 0 6px;font-weight:650;font-size:15px}
+  input,select,textarea{width:100%;padding:12px;border:1px solid #cfcfd8;border-radius:10px;font:inherit;background:#fff}
+  textarea{resize:vertical}
+  footer{margin-top:46px;color:#9a9aa6;font-size:14px;line-height:1.6;border-top:1px solid var(--line);padding-top:20px}
+  a{color:var(--accent)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <p class="kicker">For musicians who practice — pre-launch</p>
+  <h1>Your practice journal keeps getting abandoned. This one logs itself.</h1>
+  <p class="sub">A practice timer that lives in your iPhone's Dynamic Island, an AI recap of every session, and a recording history that's <em>yours</em> — on your device, no account, no subscription you'll forget to cancel.</p>
+
+  <!-- HERO: operator replaces this block with the real screen-recording of the Live Activity timer on a music stand -->
+  <div class="hero" aria-label="Signature interaction preview">
+    <div class="island"><span class="dot"></span> Beethoven Sonata · 23:14</div>
+    <div style="font-size:14px">▶ Drop the 10-sec screen recording here<br>(timer running in the Dynamic Island, phone on a music stand)</div>
+  </div>
+  <p class="cap">Glance from across the room. Never touch the phone to know it's logging.</p>
+
+  <ul class="benefits">
+    <li><b>It logs itself.</b> Start the timer, play. The session, the streak, and the recap happen without you typing anything.</li>
+    <li><b>An AI recap after every session</b> — what you worked on, what to focus on next — generated on your device, instantly.</li>
+    <li><b>Your recordings never leave your phone.</b> We know what happened to Tonara users. We built this differently.</li>
+  </ul>
+
+  <div class="price">
+    <div class="row"><b>Pay once — $99.99 lifetime</b><span>or $49.99/yr</span></div>
+    <div class="row"><span>Switching from another practice app?</span><span>$4.99 starter — keep your data</span></div>
+    <div class="note">No subscription lock-in. No account. No company that can shut down and take your practice history with it.</div>
+  </div>
+
+  <button class="cta" id="open" onclick="document.getElementById('f').classList.add('show');this.style.display='none';document.getElementById('hint').style.display='none';location.hash='#reserve'">
+    Reserve founding lifetime — 50% off at launch
+  </button>
+  <p class="ctahint" id="hint">Founding price locked for early reservers. No charge now — we'll email you once at launch.</p>
+
+  <form id="f" action="REPLACE_WITH_FORM_ENDPOINT" method="POST">
+    <h3>Reserve your founding spot</h3>
+    <p class="lead">Three quick questions so we build the right thing — then your email. That's it.</p>
+
+    <label>How do you track your practice today?</label>
+    <select name="current_method" required>
+      <option value="" disabled selected>Choose one…</option>
+      <option>Andante</option>
+      <option>Modacity</option>
+      <option>Tunable</option>
+      <option>A spreadsheet / Notion</option>
+      <option>Paper notebook or practice chart</option>
+      <option>I don't really track it</option>
+      <option>Another app</option>
+    </select>
+
+    <label>How many days a week do you practice?</label>
+    <select name="frequency" required>
+      <option value="" disabled selected>Choose one…</option>
+      <option>0–1</option><option>2–3</option><option>4–5</option><option>6–7</option>
+    </select>
+
+    <label>What would have to be true for you to switch from what you use now?</label>
+    <textarea name="switch_reason" rows="3" placeholder="Be honest — 'nothing, I'm happy' is a useful answer too." required></textarea>
+
+    <label>Are you a music teacher? (optional)</label>
+    <select name="is_teacher">
+      <option value="no" selected>No — I practice myself</option>
+      <option value="yes">Yes — I teach and might want to see students' practice</option>
+    </select>
+
+    <label>Email — we'll message you once, at launch. Nothing else.</label>
+    <input type="email" name="email" required placeholder="you@example.com">
+
+    <input type="hidden" name="utm_source" value="REPLACE_PER_CHANNEL">
+    <input type="hidden" name="variant" value="A_privacy_switch">
+
+    <button class="cta" type="submit" style="margin-top:20px">Lock in my founding price</button>
+  </form>
+
+  <footer>
+    Built by Apex Development Studio LLC · This app is pre-launch and not yet on the App Store.<br>
+    Questions: <a href="mailto:REPLACE_WITH_CONTACT">REPLACE_WITH_CONTACT</a> · There is no tracking or analytics on this page.
+  </footer>
+
+</div>
+</body>
+</html>

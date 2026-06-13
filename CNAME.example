@@ -1,0 +1,9 @@
+your-domain.com
+# ───────────────────────────────────────────────────────────────
+# To use a custom domain: rename this file to exactly "CNAME"
+# (no extension), put ONLY your apex domain on the first line, e.g.
+#     practicestreak.app
+# then commit + push. Delete these comment lines — a real CNAME
+# file must contain only the domain. Until you have a domain, leave
+# this as CNAME.example and the site serves at the github.io URL.
+# ───────────────────────────────────────────────────────────────
