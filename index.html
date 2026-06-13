@@ -2,90 +2,394 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Your practice journal keeps getting abandoned. This one logs itself.</title>
-<meta name="description" content="A music practice tracker with a timer that lives in the Dynamic Island, an AI recap of every session, and your data staying on your device. Pay once. No subscription.">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Practice that logs itself — a music practice journal for iPhone</title>
+<meta name="description" content="A music practice tracker with a timer that lives in the Dynamic Island, an AI recap of every session, and a recording history that stays on your device. Pay once. No subscription.">
+<meta name="color-scheme" content="dark">
 <style>
-  :root{--ink:#16161d;--muted:#5b5b66;--bg:#fbfbfd;--card:#fff;--line:#e6e6ec;--accent:#6b3df5;--accent2:#0f9d8c}
-  *{box-sizing:border-box}
-  html{-webkit-text-size-adjust:100%}
-  body{margin:0;font:17px/1.55 -apple-system,BlinkMacSystemFont,system-ui,sans-serif;color:var(--ink);background:var(--bg)}
-  .wrap{max-width:680px;margin:0 auto;padding:36px 20px 64px}
-  .kicker{font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);font-weight:700;margin:0 0 14px}
-  h1{font-size:31px;line-height:1.14;margin:0 0 14px;letter-spacing:-.01em}
-  .sub{font-size:20px;color:var(--muted);margin:0 0 26px}
-  .hero{aspect-ratio:9/16;max-height:540px;margin:0 auto 14px;background:linear-gradient(160deg,#efeaff,#e6f7f4);border:1px solid var(--line);border-radius:22px;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#8a8a97;text-align:center;padding:24px;gap:10px}
-  .hero .island{background:#0b0b0f;color:#fff;border-radius:22px;padding:10px 18px;font-size:15px;display:inline-flex;gap:10px;align-items:center}
-  .hero .dot{width:9px;height:9px;border-radius:50%;background:var(--accent2);box-shadow:0 0 0 4px rgba(15,157,140,.2)}
-  .cap{font-size:14px;color:#9a9aa6;text-align:center;margin:0 0 26px}
-  ul.benefits{list-style:none;padding:0;margin:0 0 26px}
-  ul.benefits li{padding:12px 0 12px 30px;border-bottom:1px solid var(--line);position:relative}
-  ul.benefits li:before{content:"✓";position:absolute;left:0;color:var(--accent2);font-weight:800}
-  .price{border:1px solid var(--line);border-radius:16px;padding:18px;margin:8px 0 22px;background:var(--card)}
-  .price .row{display:flex;justify-content:space-between;align-items:baseline;padding:6px 0}
-  .price .row b{font-size:18px}
-  .price .row span{color:var(--muted);font-size:15px}
-  .price .note{color:var(--muted);font-size:14px;margin-top:8px;border-top:1px dashed var(--line);padding-top:10px}
-  .cta{display:block;width:100%;padding:17px;border:0;border-radius:13px;background:var(--accent);color:#fff;font-size:18px;font-weight:650;cursor:pointer;letter-spacing:.01em}
-  .cta:active{transform:translateY(1px)}
-  .ctahint{text-align:center;color:var(--muted);font-size:14px;margin:10px 0 0}
-  form{display:none;margin-top:24px;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px}
-  form.show{display:block;animation:f .25s ease}
-  @keyframes f{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
-  form h3{margin:0 0 4px;font-size:19px}
-  form p.lead{margin:0 0 14px;color:var(--muted);font-size:15px}
-  label{display:block;margin:16px 0 6px;font-weight:650;font-size:15px}
-  input,select,textarea{width:100%;padding:12px;border:1px solid #cfcfd8;border-radius:10px;font:inherit;background:#fff}
+  :root{
+    --bg:#06060a; --bg2:#0b0b13; --ink:#f5f5fa; --muted:#9a9aac; --faint:#6a6a7c;
+    --line:rgba(255,255,255,.09); --card:rgba(255,255,255,.045);
+    --violet:#8b6cff; --mint:#34e0b4; --warm:#ffb86b;
+    --grad:linear-gradient(110deg,#a78bff 0%,#34e0b4 100%);
+    --maxw:1080px; --r:22px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display",system-ui,sans-serif;
+    color:var(--ink);background:var(--bg);line-height:1.5;overflow-x:hidden;
+    -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+  }
+  /* ---- ambient aurora background ---- */
+  .aurora{position:fixed;inset:0;z-index:-2;overflow:hidden;background:
+    radial-gradient(60% 50% at 50% -10%,rgba(139,108,255,.16),transparent 70%),
+    linear-gradient(180deg,#06060a,#08080f 40%,#06060a)}
+  .blob{position:absolute;border-radius:50%;filter:blur(90px);opacity:.55;will-change:transform}
+  .b1{width:520px;height:520px;background:#6d4bff;top:-160px;left:-120px;animation:drift1 24s ease-in-out infinite}
+  .b2{width:460px;height:460px;background:#11a589;bottom:-180px;right:-120px;animation:drift2 28s ease-in-out infinite}
+  .b3{width:380px;height:380px;background:#ff9d5c;top:40%;left:55%;opacity:.18;animation:drift3 32s ease-in-out infinite}
+  @keyframes drift1{50%{transform:translate(80px,60px) scale(1.1)}}
+  @keyframes drift2{50%{transform:translate(-70px,-50px) scale(1.08)}}
+  @keyframes drift3{50%{transform:translate(-60px,40px) scale(.92)}}
+  .grain{position:fixed;inset:0;z-index:-1;opacity:.035;pointer-events:none;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px}
+
+  /* ---- sticky header ---- */
+  header{position:fixed;top:0;left:0;right:0;z-index:50;transition:.4s ease;
+    transform:translateY(-110%);background:rgba(8,8,14,.7);backdrop-filter:blur(18px) saturate(140%);
+    -webkit-backdrop-filter:blur(18px) saturate(140%);border-bottom:1px solid transparent}
+  header.show{transform:none;border-bottom:1px solid var(--line)}
+  header .bar{max-width:var(--maxw);margin:0 auto;padding:12px 24px;display:flex;align-items:center;justify-content:space-between}
+  .word{font-weight:680;letter-spacing:-.02em;font-size:17px;display:flex;align-items:center;gap:9px}
+  .word .mk{width:22px;height:22px;border-radius:7px;background:var(--grad);display:inline-flex;align-items:center;justify-content:center;font-size:12px;color:#0a0a0f;font-weight:800}
+  .minicta{font-size:14px;font-weight:620;color:#0a0a0f;background:var(--ink);padding:9px 16px;border-radius:980px;text-decoration:none;transition:.2s}
+  .minicta:hover{transform:translateY(-1px);box-shadow:0 8px 24px rgba(255,255,255,.12)}
+
+  /* ---- hero ---- */
+  .hero{padding:120px 0 40px;position:relative}
+  .hero .grid{display:grid;grid-template-columns:1.05fr .95fr;gap:40px;align-items:center}
+  .eyebrow{display:inline-flex;align-items:center;gap:9px;font-size:13px;font-weight:600;letter-spacing:.02em;
+    color:var(--muted);border:1px solid var(--line);padding:7px 13px;border-radius:980px;background:var(--card);margin-bottom:24px}
+  .eyebrow .live{width:7px;height:7px;border-radius:50%;background:var(--mint);box-shadow:0 0 0 0 rgba(52,224,180,.6);animation:pulse 2.4s infinite}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(52,224,180,.5)}70%{box-shadow:0 0 0 8px rgba(52,224,180,0)}100%{box-shadow:0 0 0 0 rgba(52,224,180,0)}}
+  h1{font-size:clamp(38px,5.4vw,60px);line-height:1.04;letter-spacing:-.035em;font-weight:720;margin-bottom:22px}
+  h1 .g{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .lede{font-size:clamp(17px,2vw,20px);color:var(--muted);max-width:30em;margin-bottom:32px}
+  .lede em{color:var(--ink);font-style:normal;font-weight:600}
+  .ctas{display:flex;gap:14px;flex-wrap:wrap;align-items:center}
+  .btn{font:inherit;font-size:17px;font-weight:640;letter-spacing:-.01em;cursor:pointer;border:0;border-radius:980px;
+    padding:16px 28px;text-decoration:none;display:inline-flex;align-items:center;gap:9px;transition:.22s cubic-bezier(.2,.7,.3,1)}
+  .btn.primary{color:#08080f;background:var(--ink);position:relative;overflow:hidden}
+  .btn.primary:after{content:"";position:absolute;inset:0;background:var(--grad);opacity:0;transition:.25s}
+  .btn.primary span{position:relative;z-index:1}
+  .btn.primary:hover{transform:translateY(-2px);box-shadow:0 16px 40px rgba(139,108,255,.35)}
+  .btn.primary:hover:after{opacity:1}
+  .btn.ghost{color:var(--ink);background:transparent;border:1px solid var(--line)}
+  .btn.ghost:hover{background:var(--card);transform:translateY(-2px)}
+  .reassure{margin-top:18px;font-size:14px;color:var(--faint)}
+  .reassure b{color:var(--muted);font-weight:600}
+
+  /* ---- iPhone hero device ---- */
+  .stage{display:flex;justify-content:center;perspective:1400px}
+  .phone{position:relative;width:286px;aspect-ratio:9/19.3;background:#000;border-radius:52px;
+    padding:11px;box-shadow:0 2px 6px rgba(0,0,0,.6),0 50px 90px -30px rgba(0,0,0,.85),0 0 0 1px rgba(255,255,255,.06),inset 0 0 0 2px #1a1a22;
+    transform:rotateY(-13deg) rotateX(5deg) rotateZ(1deg);transform-style:preserve-3d;
+    animation:floaty 7s ease-in-out infinite}
+  @keyframes floaty{50%{transform:rotateY(-9deg) rotateX(4deg) translateY(-12px)}}
+  .screen{position:relative;width:100%;height:100%;border-radius:42px;overflow:hidden;
+    background:radial-gradient(120% 80% at 50% 0%,#241a4d 0%,#0e1430 45%,#070a18 100%)}
+  .screen:before{content:"";position:absolute;inset:0;background:
+    radial-gradient(60% 40% at 75% 18%,rgba(52,224,180,.22),transparent 60%),
+    radial-gradient(50% 35% at 20% 70%,rgba(139,108,255,.28),transparent 60%)}
+  /* dynamic island */
+  .island{position:absolute;top:14px;left:50%;transform:translateX(-50%);z-index:6;
+    background:#000;border-radius:22px;height:34px;display:flex;align-items:center;gap:9px;
+    padding:0 13px;min-width:128px;box-shadow:0 2px 10px rgba(0,0,0,.5);animation:islandbreathe 5s ease-in-out infinite}
+  @keyframes islandbreathe{50%{min-width:150px}}
+  .island .rec{width:8px;height:8px;border-radius:50%;background:var(--mint);animation:blink 1.6s infinite}
+  @keyframes blink{50%{opacity:.25}}
+  .island .pc{font-size:11px;color:#fff;font-weight:600;white-space:nowrap;overflow:hidden;max-width:78px;text-overflow:ellipsis}
+  .island .tm{font-size:11px;color:var(--mint);font-weight:680;font-variant-numeric:tabular-nums;margin-left:auto}
+  /* lock-screen clock */
+  .lock{position:relative;z-index:2;padding:62px 22px 0;text-align:center;color:#fff}
+  .lock .day{font-size:13px;opacity:.7;letter-spacing:.02em}
+  .lock .clk{font-size:62px;font-weight:600;letter-spacing:-.03em;line-height:1;font-variant-numeric:tabular-nums;margin-top:2px}
+  /* live activity card */
+  .la{position:absolute;left:14px;right:14px;bottom:26px;z-index:4;border-radius:24px;padding:15px 16px;
+    background:rgba(20,22,40,.62);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+    border:1px solid rgba(255,255,255,.12);box-shadow:0 18px 40px -12px rgba(0,0,0,.7)}
+  .la .top{display:flex;align-items:center;gap:9px;margin-bottom:12px}
+  .la .ic{width:26px;height:26px;border-radius:8px;background:var(--grad);display:flex;align-items:center;justify-content:center;font-size:14px}
+  .la .lbl{font-size:12px;color:#cfcfe0;font-weight:600}
+  .la .lbl b{color:#fff;display:block;font-size:13px}
+  .la .big{display:flex;align-items:flex-end;justify-content:space-between}
+  .la .piece{font-size:14px;color:#dcdcec;font-weight:600}
+  .la .piece span{display:block;font-size:11px;color:#8f8fa6;font-weight:500;margin-top:2px}
+  .la .time{font-size:30px;font-weight:680;color:#fff;font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+  .la .wave{display:flex;align-items:flex-end;gap:3px;height:22px;margin-top:12px}
+  .la .wave i{flex:1;background:linear-gradient(180deg,var(--mint),rgba(52,224,180,.3));border-radius:2px;animation:eq 1.1s ease-in-out infinite}
+  @keyframes eq{0%,100%{height:20%}50%{height:100%}}
+
+  /* ---- section scaffolding ---- */
+  section{position:relative;padding:96px 0}
+  .kick{font-size:13px;font-weight:680;letter-spacing:.12em;text-transform:uppercase;color:var(--mint);margin-bottom:14px}
+  h2{font-size:clamp(28px,3.6vw,42px);line-height:1.08;letter-spacing:-.03em;font-weight:700;margin-bottom:16px}
+  .sub{font-size:18px;color:var(--muted);max-width:34em}
+  .reveal{opacity:0;transform:translateY(28px);transition:opacity .8s cubic-bezier(.2,.7,.3,1),transform .8s cubic-bezier(.2,.7,.3,1)}
+  .reveal.in{opacity:1;transform:none}
+
+  /* problem strip */
+  .prob{text-align:center}
+  .prob h2{max-width:16em;margin:0 auto 10px}
+  .prob .strike{color:var(--faint);text-decoration:line-through;text-decoration-color:rgba(255,90,90,.6)}
+
+  /* feature rows */
+  .feat{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center;margin-top:24px}
+  .feat.rev{direction:rtl}.feat.rev>*{direction:ltr}
+  .feat h3{font-size:26px;letter-spacing:-.02em;font-weight:680;margin-bottom:12px}
+  .feat p{color:var(--muted);font-size:17px;max-width:30em}
+  .panel{border:1px solid var(--line);border-radius:var(--r);background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.02));
+    padding:28px;min-height:280px;display:flex;flex-direction:column;justify-content:center;position:relative;overflow:hidden}
+  .panel:before{content:"";position:absolute;inset:0;background:radial-gradient(70% 60% at 80% 0%,rgba(139,108,255,.14),transparent 65%)}
+
+  /* AI recap card (self-writing) */
+  .recap{position:relative;z-index:1}
+  .recap .h{display:flex;align-items:center;gap:10px;margin-bottom:16px}
+  .recap .h .ai{width:30px;height:30px;border-radius:9px;background:var(--grad);display:flex;align-items:center;justify-content:center;font-size:15px}
+  .recap .h b{font-size:15px}.recap .h em{font-style:normal;color:var(--faint);font-size:13px;margin-left:auto}
+  .recap .row{font-size:15px;color:#d7d7e4;margin:9px 0;min-height:1.4em}
+  .recap .row .t{color:var(--mint);font-weight:600}
+  .cursor{display:inline-block;width:2px;height:1em;background:var(--mint);margin-left:1px;vertical-align:-2px;animation:cur .9s steps(2) infinite}
+  @keyframes cur{50%{opacity:0}}
+
+  /* streak dots */
+  .streak{display:flex;flex-direction:column;gap:18px;position:relative;z-index:1}
+  .streak .num{font-size:54px;font-weight:740;letter-spacing:-.03em;line-height:1;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .streak .num small{font-size:16px;font-weight:600;color:var(--muted);-webkit-text-fill-color:var(--muted);margin-left:8px}
+  .dots{display:flex;gap:7px;flex-wrap:wrap}
+  .dots i{width:26px;height:26px;border-radius:8px;background:rgba(255,255,255,.06);border:1px solid var(--line);transition:.5s}
+  .dots i.on{background:var(--grad);border-color:transparent;box-shadow:0 4px 14px rgba(52,224,180,.3)}
+
+  /* privacy panel */
+  .priv{display:flex;align-items:center;gap:18px;position:relative;z-index:1}
+  .priv .lock{position:static;padding:0;width:64px;height:64px;border-radius:18px;background:rgba(255,255,255,.05);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:28px;text-align:center}
+  .priv b{font-size:17px}.priv span{display:block;color:var(--muted);font-size:15px;margin-top:4px}
+
+  /* trust beat */
+  .trust{text-align:center;padding:120px 0}
+  .trust h2{font-size:clamp(30px,4.5vw,52px);max-width:14em;margin:0 auto 18px}
+  .trust .g{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .trust p{color:var(--muted);max-width:30em;margin:0 auto;font-size:18px}
+
+  /* pricing */
+  .price-wrap{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:36px;max-width:760px}
+  .pcard{border:1px solid var(--line);border-radius:var(--r);padding:28px;background:var(--card);position:relative;transition:.3s}
+  .pcard:hover{transform:translateY(-4px);border-color:rgba(255,255,255,.18)}
+  .pcard.feature{border-color:rgba(139,108,255,.5);background:linear-gradient(180deg,rgba(139,108,255,.1),rgba(52,224,180,.05))}
+  .pcard .tag{position:absolute;top:-11px;left:24px;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#08080f;background:var(--grad);padding:5px 11px;border-radius:980px}
+  .pcard .pname{font-size:14px;color:var(--muted);font-weight:600}
+  .pcard .amt{font-size:40px;font-weight:740;letter-spacing:-.03em;margin:6px 0 2px}
+  .pcard .amt small{font-size:15px;color:var(--faint);font-weight:500}
+  .pcard ul{list-style:none;margin:16px 0 0}
+  .pcard li{font-size:14px;color:#c8c8d6;padding:7px 0 7px 24px;position:relative}
+  .pcard li:before{content:"✓";position:absolute;left:0;color:var(--mint);font-weight:800}
+  .switch-note{margin-top:18px;font-size:14px;color:var(--faint)}
+  .switch-note b{color:var(--muted);font-weight:600}
+
+  /* reserve / form */
+  .reserve{text-align:center;padding:110px 0}
+  .reserve h2{max-width:16em;margin:0 auto 14px}
+  .reserve .sub{margin:0 auto 28px}
+  form{display:none;max-width:460px;margin:8px auto 0;text-align:left;background:var(--card);
+    border:1px solid var(--line);border-radius:var(--r);padding:26px;backdrop-filter:blur(10px)}
+  form.show{display:block;animation:rise .4s cubic-bezier(.2,.7,.3,1)}
+  @keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+  form h3{font-size:20px;letter-spacing:-.01em;margin-bottom:4px}
+  form .lead{color:var(--muted);font-size:14px;margin-bottom:8px}
+  label{display:block;margin:16px 0 7px;font-weight:620;font-size:14px}
+  input,select,textarea{width:100%;padding:13px;border:1px solid rgba(255,255,255,.14);border-radius:12px;
+    font:inherit;font-size:15px;background:rgba(0,0,0,.25);color:var(--ink);transition:.2s}
+  input:focus,select:focus,textarea:focus{outline:0;border-color:var(--mint);box-shadow:0 0 0 3px rgba(52,224,180,.15)}
+  select option{background:#11111a}
   textarea{resize:vertical}
-  footer{margin-top:46px;color:#9a9aa6;font-size:14px;line-height:1.6;border-top:1px solid var(--line);padding-top:20px}
-  a{color:var(--accent)}
+
+  footer{border-top:1px solid var(--line);padding:40px 0 60px;color:var(--faint);font-size:14px;line-height:1.7}
+  footer .word{margin-bottom:10px;font-size:15px}
+  footer a{color:var(--muted)}
+
+  /* responsive */
+  @media(max-width:840px){
+    .hero{padding:104px 0 20px}
+    .hero .grid{grid-template-columns:1fr;gap:48px}
+    .stage{order:-1}
+    .feat{grid-template-columns:1fr;gap:28px}
+    .feat.rev{direction:ltr}
+    .price-wrap{grid-template-columns:1fr}
+    section{padding:72px 0}
+  }
+  @media(prefers-reduced-motion:reduce){
+    *{animation:none!important;scroll-behavior:auto}
+    .reveal{opacity:1;transform:none}
+  }
 </style>
 </head>
 <body>
-<div class="wrap">
+<div class="aurora"><div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div></div>
+<div class="grain"></div>
 
-  <p class="kicker">For musicians who practice — pre-launch</p>
-  <h1>Your practice journal keeps getting abandoned. This one logs itself.</h1>
-  <p class="sub">A practice timer that lives in your iPhone's Dynamic Island, an AI recap of every session, and a recording history that's <em>yours</em> — on your device, no account, no subscription you'll forget to cancel.</p>
+<header id="hdr"><div class="bar">
+  <div class="word"><span class="mk">♪</span> Practice</div>
+  <a class="minicta" href="#reserve">Reserve early access</a>
+</div></header>
 
-  <!-- HERO: operator replaces this block with the real screen-recording of the Live Activity timer on a music stand -->
-  <div class="hero" aria-label="Signature interaction preview">
-    <div class="island"><span class="dot"></span> Beethoven Sonata · 23:14</div>
-    <div style="font-size:14px">▶ Drop the 10-sec screen recording here<br>(timer running in the Dynamic Island, phone on a music stand)</div>
-  </div>
-  <p class="cap">Glance from across the room. Never touch the phone to know it's logging.</p>
-
-  <ul class="benefits">
-    <li><b>It logs itself.</b> Start the timer, play. The session, the streak, and the recap happen without you typing anything.</li>
-    <li><b>An AI recap after every session</b> — what you worked on, what to focus on next — generated on your device, instantly.</li>
-    <li><b>Your recordings never leave your phone.</b> We know what happened to Tonara users. We built this differently.</li>
-  </ul>
-
-  <div class="price">
-    <div class="row"><b>Pay once — $99.99 lifetime</b><span>or $49.99/yr</span></div>
-    <div class="row"><span>Switching from another practice app?</span><span>$4.99 starter — keep your data</span></div>
-    <div class="note">No subscription lock-in. No account. No company that can shut down and take your practice history with it.</div>
+<!-- ============ HERO ============ -->
+<section class="hero"><div class="wrap"><div class="grid">
+  <div class="copy">
+    <div class="eyebrow"><span class="live"></span> Pre-launch · for people who actually practice</div>
+    <h1>Practice that <span class="g">logs itself.</span></h1>
+    <p class="lede">A practice timer that lives in your iPhone's Dynamic Island, an AI recap after every session, and a recording history that's <em>yours</em> — on your device, no account, no subscription you'll forget to cancel.</p>
+    <div class="ctas">
+      <a class="btn primary" href="#reserve"><span>Reserve founding access</span></a>
+      <a class="btn ghost" href="#how">See how it works</a>
+    </div>
+    <p class="reassure"><b>Pay once · $99.99 lifetime</b> &nbsp;·&nbsp; no charge today &nbsp;·&nbsp; we email you once, at launch</p>
   </div>
 
-  <button class="cta" id="open" onclick="document.getElementById('f').classList.add('show');this.style.display='none';document.getElementById('hint').style.display='none';location.hash='#reserve'">
-    Reserve founding lifetime — 50% off at launch
-  </button>
-  <p class="ctahint" id="hint">Founding price locked for early reservers. No charge now — we'll email you once at launch.</p>
+  <div class="stage">
+    <div class="phone"><div class="screen">
+      <div class="island">
+        <span class="rec"></span>
+        <span class="pc">Beethoven</span>
+        <span class="tm" id="islandTime">23:14</span>
+      </div>
+      <div class="lock">
+        <div class="day">Tuesday, September 8</div>
+        <div class="clk">9:41</div>
+      </div>
+      <div class="la">
+        <div class="top">
+          <div class="ic">♪</div>
+          <div class="lbl">Practice in progress<b>Today's session</b></div>
+        </div>
+        <div class="big">
+          <div class="piece">Beethoven — Sonata No. 8<span>Section 2 of 4 · Adagio</span></div>
+          <div class="time" id="laTime">23:14</div>
+        </div>
+        <div class="wave">
+          <i style="animation-delay:0s"></i><i style="animation-delay:.1s"></i><i style="animation-delay:.25s"></i>
+          <i style="animation-delay:.15s"></i><i style="animation-delay:.3s"></i><i style="animation-delay:.05s"></i>
+          <i style="animation-delay:.2s"></i><i style="animation-delay:.35s"></i><i style="animation-delay:.12s"></i>
+          <i style="animation-delay:.28s"></i><i style="animation-delay:.08s"></i><i style="animation-delay:.22s"></i>
+        </div>
+      </div>
+    </div></div>
+  </div>
+</div></div></section>
+
+<!-- ============ PROBLEM ============ -->
+<section class="prob"><div class="wrap reveal">
+  <div class="kick">Sound familiar?</div>
+  <h2>You start a practice journal. <span class="strike">You abandon it in a week.</span></h2>
+  <p class="sub" style="margin:0 auto">Every spreadsheet, every notebook, every app — they all die the same way: logging is work, and the data just sits there. This one is built so you never log a thing, and every session ends with something worth coming back for.</p>
+</div></section>
+
+<!-- ============ HOW / FEATURES ============ -->
+<section id="how"><div class="wrap">
+  <div class="reveal"><div class="kick">The signature move</div>
+    <h2>The timer you can see from across the room.</h2></div>
+
+  <div class="feat reveal">
+    <div>
+      <h3>It logs itself</h3>
+      <p>Put your phone on the stand, tap start, and play. The timer runs in the Dynamic Island — glance at it without ever touching the screen. The session, the streak, and the recap all happen on their own. No incumbent app does this.</p>
+    </div>
+    <div class="panel"><div style="position:relative;z-index:1;text-align:center">
+      <div style="display:inline-flex;align-items:center;gap:10px;background:#000;border-radius:22px;height:40px;padding:0 16px;box-shadow:0 8px 30px rgba(0,0,0,.5)">
+        <span style="width:9px;height:9px;border-radius:50%;background:var(--mint);animation:blink 1.6s infinite"></span>
+        <span style="font-size:13px;color:#fff;font-weight:600">Bach — Prelude</span>
+        <span style="font-size:13px;color:var(--mint);font-weight:700;font-variant-numeric:tabular-nums" id="featTime">41:02</span>
+      </div>
+      <p style="color:var(--faint);font-size:13px;margin-top:14px">Live in the Dynamic Island — and mirrored to your Apple Watch.</p>
+    </div></div>
+  </div>
+
+  <div class="feat rev reveal">
+    <div>
+      <h3>An AI recap, written for you</h3>
+      <p>Every session ends with a short, on-device summary — what you worked on, what to focus on next. It's generated right on your iPhone with Apple Intelligence. Nothing is uploaded. Nothing leaves the device.</p>
+    </div>
+    <div class="panel"><div class="recap">
+      <div class="h"><span class="ai">✦</span><b>Session recap</b><em>on-device</em></div>
+      <div class="row" data-type="You logged <span class='t'>41 minutes</span> across 3 pieces."></div>
+      <div class="row" data-type="Strongest stretch: the Bach Prelude — your longest focused block this week."></div>
+      <div class="row" data-type="Tomorrow: slow the Adagio transition that keeps tripping you up."></div>
+    </div></div>
+  </div>
+
+  <div class="feat reveal">
+    <div>
+      <h3>Streaks that forgive you</h3>
+      <p>Daily practice is a habit, not a guilt trip. See your streak grow, watch your hours add up in clean charts — and miss a day without losing everything. Showing up is the whole game.</p>
+    </div>
+    <div class="panel"><div class="streak">
+      <div class="num" id="streakNum">0<small>day streak</small></div>
+      <div class="dots" id="dots"></div>
+    </div></div>
+  </div>
+
+  <div class="feat rev reveal">
+    <div>
+      <h3>Your recordings stay yours</h3>
+      <p>Record a session, hear yourself improve over months. It all lives on your device and your private iCloud — no account to make, no servers, no company that can shut down and take your practice history with it.</p>
+    </div>
+    <div class="panel"><div class="priv">
+      <div class="lock">🔒</div>
+      <div>
+        <b>Data Not Collected</b>
+        <span>No account. No analytics. No cloud we can see. The strongest privacy label Apple offers.</span>
+      </div>
+    </div></div>
+  </div>
+</div></section>
+
+<!-- ============ TRUST BEAT ============ -->
+<section class="trust"><div class="wrap reveal">
+  <h2>Apps die. <span class="g">Your practice shouldn't.</span></h2>
+  <p>When Tonara shut down, it took thousands of musicians' practice history with it. We built this so that can never happen to yours — it's on your phone, it's exportable, and it's yours to keep.</p>
+</div></section>
+
+<!-- ============ PRICING ============ -->
+<section id="pricing"><div class="wrap">
+  <div class="reveal"><div class="kick">Pricing</div>
+    <h2>Pay once. Own it. No subscription games.</h2>
+    <p class="sub">Priced for a musician who practices every morning — not for an enterprise. The Modacity crowd pays $129 a year. You shouldn't have to.</p></div>
+
+  <div class="price-wrap reveal">
+    <div class="pcard feature">
+      <span class="tag">Founding price · 50% off</span>
+      <div class="pname">Lifetime — pay once</div>
+      <div class="amt">$99.99 <small>/ once</small></div>
+      <ul>
+        <li>Every feature, forever</li>
+        <li>Dynamic Island timer + Apple Watch</li>
+        <li>On-device AI recaps</li>
+        <li>Shareable with your family</li>
+      </ul>
+    </div>
+    <div class="pcard">
+      <div class="pname">Annual — if you'd rather</div>
+      <div class="amt">$49.99 <small>/ year</small></div>
+      <ul>
+        <li>Everything in lifetime</li>
+        <li>14-day free trial</li>
+        <li>Cancel anytime</li>
+      </ul>
+    </div>
+  </div>
+  <p class="switch-note reveal"><b>Switching from Andante, Modacity or a spreadsheet?</b> A $4.99 starter unlock lets you bring your whole history and try it first.</p>
+</div></section>
+
+<!-- ============ RESERVE + FORM ============ -->
+<section class="reserve" id="reserve"><div class="wrap reveal">
+  <div class="kick">Founding access</div>
+  <h2>Reserve your founding lifetime price.</h2>
+  <p class="sub">No charge today. Three quick questions so we build the right thing, then your email — we'll message you once, when it's ready.</p>
+
+  <a class="btn primary" id="open" style="cursor:pointer" onclick="openForm(this)"><span>Reserve founding lifetime — 50% off →</span></a>
 
   <form id="f" action="REPLACE_WITH_FORM_ENDPOINT" method="POST">
-    <h3>Reserve your founding spot</h3>
-    <p class="lead">Three quick questions so we build the right thing — then your email. That's it.</p>
+    <h3>Lock in your founding spot</h3>
+    <p class="lead">Honest answers help most — "nothing, I'm happy with what I use" is a useful answer too.</p>
 
     <label>How do you track your practice today?</label>
     <select name="current_method" required>
       <option value="" disabled selected>Choose one…</option>
-      <option>Andante</option>
-      <option>Modacity</option>
-      <option>Tunable</option>
-      <option>A spreadsheet / Notion</option>
-      <option>Paper notebook or practice chart</option>
-      <option>I don't really track it</option>
-      <option>Another app</option>
+      <option>Andante</option><option>Modacity</option><option>Tunable</option>
+      <option>A spreadsheet / Notion</option><option>Paper notebook or practice chart</option>
+      <option>I don't really track it</option><option>Another app</option>
     </select>
 
     <label>How many days a week do you practice?</label>
@@ -95,7 +399,7 @@
     </select>
 
     <label>What would have to be true for you to switch from what you use now?</label>
-    <textarea name="switch_reason" rows="3" placeholder="Be honest — 'nothing, I'm happy' is a useful answer too." required></textarea>
+    <textarea name="switch_reason" rows="3" placeholder="Be honest." required></textarea>
 
     <label>Are you a music teacher? (optional)</label>
     <select name="is_teacher">
@@ -103,20 +407,82 @@
       <option value="yes">Yes — I teach and might want to see students' practice</option>
     </select>
 
-    <label>Email — we'll message you once, at launch. Nothing else.</label>
+    <label>Email — one message, at launch. Nothing else.</label>
     <input type="email" name="email" required placeholder="you@example.com">
 
     <input type="hidden" name="utm_source" value="REPLACE_PER_CHANNEL">
-    <input type="hidden" name="variant" value="A_privacy_switch">
-
-    <button class="cta" type="submit" style="margin-top:20px">Lock in my founding price</button>
+    <input type="hidden" name="variant" value="A_premium">
+    <button class="btn primary" type="submit" style="width:100%;margin-top:22px;justify-content:center"><span>Lock in my founding price</span></button>
   </form>
+</div></section>
 
-  <footer>
-    Built by Apex Development Studio LLC · This app is pre-launch and not yet on the App Store.<br>
-    Questions: <a href="mailto:REPLACE_WITH_CONTACT">REPLACE_WITH_CONTACT</a> · There is no tracking or analytics on this page.
-  </footer>
+<footer><div class="wrap">
+  <div class="word"><span class="mk">♪</span> Practice</div>
+  Built by Apex Development Studio LLC · pre-launch, not yet on the App Store.<br>
+  Questions: <a href="mailto:REPLACE_WITH_CONTACT">REPLACE_WITH_CONTACT</a> · There is no tracking or analytics on this page.
+</div></footer>
 
-</div>
+<script>
+(function(){
+  var reduce = window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+
+  // sticky header after hero
+  var hdr = document.getElementById('hdr');
+  window.addEventListener('scroll', function(){
+    if(window.scrollY > 560) hdr.classList.add('show'); else hdr.classList.remove('show');
+  }, {passive:true});
+
+  // live ticking timers (hero island + LA + feature pill)
+  var base = 23*60+14, fbase = 41*60+2;
+  function fmt(s){var m=Math.floor(s/60);return (m)+':'+String(s%60).padStart(2,'0');}
+  var iT=document.getElementById('islandTime'),lT=document.getElementById('laTime'),fT=document.getElementById('featTime');
+  if(!reduce) setInterval(function(){
+    base++; fbase++;
+    if(iT)iT.textContent=fmt(base); if(lT)lT.textContent=fmt(base); if(fT)fT.textContent=fmt(fbase);
+  },1000);
+
+  // reveal on scroll
+  var io=new IntersectionObserver(function(es){
+    es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); trigger(e.target); io.unobserve(e.target);} });
+  },{threshold:.18});
+  document.querySelectorAll('.reveal').forEach(function(el){io.observe(el);});
+
+  // streak fill + count, AI typing — triggered when their section reveals
+  var firedStreak=false, firedRecap=false;
+  function trigger(el){
+    if(!firedStreak && el.querySelector && el.querySelector('#dots')){ firedStreak=true; fillStreak(); }
+    if(!firedRecap && el.querySelector && el.querySelector('.recap')){ firedRecap=true; typeRecap(); }
+  }
+  function fillStreak(){
+    var dots=document.getElementById('dots'), num=document.getElementById('streakNum');
+    if(!dots) return; for(var i=0;i<14;i++){var d=document.createElement('i');dots.appendChild(d);}
+    var els=dots.querySelectorAll('i'), n=0;
+    if(reduce){ els.forEach(function(d){d.classList.add('on')}); num.innerHTML='14<small>day streak</small>'; return; }
+    var t=setInterval(function(){ if(n>=els.length){clearInterval(t);return;} els[n].classList.add('on'); n++; num.innerHTML=n+'<small>day streak</small>'; },90);
+  }
+  function typeRecap(){
+    var rows=document.querySelectorAll('.recap .row');
+    if(reduce){ rows.forEach(function(r){r.innerHTML=r.dataset.type;}); return; }
+    var ri=0;
+    function nextRow(){
+      if(ri>=rows.length) return;
+      var row=rows[ri], html=row.dataset.type, i=0, cur=document.createElement('span'); cur.className='cursor';
+      row.textContent=''; row.appendChild(cur);
+      var t=setInterval(function(){
+        i++;
+        // type by character but keep simple span tags intact
+        row.innerHTML=html.slice(0,i)+'<span class="cursor"></span>';
+        if(i>=html.length){ clearInterval(t); row.innerHTML=html; ri++; setTimeout(nextRow,260); }
+      },16);
+    }
+    nextRow();
+  }
+
+  window.openForm=function(btn){
+    var f=document.getElementById('f'); f.classList.add('show'); btn.style.display='none';
+    location.hash='#reserve'; f.querySelector('select').focus();
+  };
+})();
+</script>
 </body>
 </html>
