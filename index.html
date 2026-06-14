@@ -428,7 +428,7 @@
 
   <a class="btn primary" id="open" style="cursor:pointer" onclick="openForm(this)"><span>Reserve founding lifetime — 50% off →</span></a>
 
-  <form id="f" action="REPLACE_WITH_FORM_ENDPOINT" method="POST">
+  <form id="f">
     <h3>Lock in your founding spot</h3>
     <p class="lead">Honest answers help most — "nothing, I'm happy with what I use" is a useful answer too.</p>
 
@@ -542,17 +542,29 @@
     location.hash='#reserve'; f.querySelector('select').focus();
   };
 
-  // graceful AJAX submit → inline "you're on the list" confirmation
+  // AJAX submit → Fernand headless contact API → inline "you're on the list" confirmation
   var form=document.getElementById('f');
   function showThanks(){ form.classList.remove('show'); form.style.display='none'; document.getElementById('thanks').classList.add('show'); }
   form.addEventListener('submit', function(e){
     e.preventDefault();
     var btn=form.querySelector('button[type=submit]'), err=document.getElementById('formerr');
     err.classList.remove('show');
-    // not wired to a real endpoint yet → confirm optimistically so the flow is demoable
-    if(form.action.indexOf('REPLACE')>-1){ showThanks(); return; }
     btn.disabled=true; btn.querySelector('span').textContent='Reserving…';
-    fetch(form.action,{method:'POST',body:new FormData(form),headers:{'Accept':'application/json'}})
+    var fd=new FormData(form), email=(fd.get('email')||'').trim();
+    var message=[
+      'Founding reservation — Daily Crescendo','',
+      'Tracks practice today: '+(fd.get('current_method')||'—'),
+      'Practice days/week: '+(fd.get('frequency')||'—'),
+      'Would switch if: '+(fd.get('switch_reason')||'—'),
+      'Music teacher: '+(fd.get('is_teacher')||'—'),
+      'Variant: '+(fd.get('variant')||'—'),
+      'utm_source: '+(fd.get('utm_source')||'—')
+    ].join('\n');
+    fetch('https://api.getfernand.com/messenger/contact',{
+      method:'POST',
+      headers:{ 'Content-Type':'application/json','Accept':'application/json','X-AppId':'journey-tracker' },
+      body:JSON.stringify({ slug:'journey-tracker', name:email, email:email, subject:'Daily Crescendo — Founding reservation', message:message })
+    })
       .then(function(r){ if(r.ok){ showThanks(); } else { throw new Error(); } })
       .catch(function(){ btn.disabled=false; btn.querySelector('span').textContent='Lock in my founding price'; err.classList.add('show'); });
   });
