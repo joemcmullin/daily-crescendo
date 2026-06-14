@@ -49,17 +49,17 @@
   .wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px}
 
   /* ---- sticky header ---- */
+  /* header is hidden while the hero is on screen; it slides + fades in once you scroll past the hero (JS adds .show) */
   header{position:fixed;top:0;left:0;right:0;z-index:50;transition:.4s ease;
-    background:transparent;border-bottom:1px solid transparent}
-  header.show{background:rgba(8,8,14,.7);backdrop-filter:blur(18px) saturate(140%);
+    background:transparent;border-bottom:1px solid transparent;
+    opacity:0;visibility:hidden;transform:translateY(-100%);pointer-events:none}
+  header.show{opacity:1;visibility:visible;transform:translateY(0);pointer-events:auto;
+    background:rgba(8,8,14,.7);backdrop-filter:blur(18px) saturate(140%);
     -webkit-backdrop-filter:blur(18px) saturate(140%);border-bottom:1px solid var(--line)}
   header .bar{max-width:var(--maxw);margin:0 auto;padding:12px 24px;display:flex;align-items:center;justify-content:space-between}
   .word{font-weight:700;letter-spacing:-.02em;font-size:22px;display:flex;align-items:center;gap:11px;color:var(--ink);text-decoration:none}
   .word .mk{width:34px;height:34px;background:url(logo-mark.svg) center/contain no-repeat;display:inline-block;flex:0 0 auto}
   .word .wt{white-space:nowrap}
-  /* at page top the hero carries the full lockup, so the nav shows just the mark; the wordmark fades in on scroll */
-  header .word .wt{transition:opacity .35s ease,transform .35s ease}
-  header:not(.show) .word .wt{opacity:0;transform:translateX(-8px)}
   .word .g{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
   .minicta{font-size:14px;font-weight:620;color:#0a0a0f;background:var(--ink);padding:9px 16px;border-radius:980px;text-decoration:none;transition:.2s}
   .minicta:hover{transform:translateY(-1px);box-shadow:0 8px 24px rgba(255,255,255,.12)}
@@ -67,10 +67,10 @@
   /* ---- hero ---- */
   .hero{padding:120px 0 40px;position:relative}
   .hero .grid{display:grid;grid-template-columns:1.05fr .95fr;gap:40px;align-items:center}
-  /* hero brand lockup (animated draw-on) */
-  .herologo{display:flex;flex-direction:column;align-items:flex-start;gap:13px;margin-bottom:30px}
-  .herologo .hltile{width:58px;height:58px;display:block;flex:0 0 auto}
-  .herologo .hl-word{font-weight:700;font-size:28px;letter-spacing:-.02em;color:var(--ink);line-height:1}
+  /* hero brand lockup — large stacked (wordmark below tile), left-justified, animated draw-on */
+  .herologo{display:flex;flex-direction:column;align-items:flex-start;gap:15px;margin-bottom:30px}
+  .herologo .hltile{width:66px;height:66px;display:block;flex:0 0 auto}
+  .herologo .hl-word{font-weight:700;font-size:31px;letter-spacing:-.02em;color:var(--ink);line-height:1}
   .herologo .hl-word .g{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
   .dcwave{stroke-dasharray:100;stroke-dashoffset:0;animation:dcdraw 1.5s cubic-bezier(.45,0,.15,1) .25s both}
   @keyframes dcdraw{from{stroke-dashoffset:100}to{stroke-dashoffset:0}}
