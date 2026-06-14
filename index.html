@@ -57,6 +57,9 @@
   .word{font-weight:700;letter-spacing:-.02em;font-size:22px;display:flex;align-items:center;gap:11px;color:var(--ink);text-decoration:none}
   .word .mk{width:34px;height:34px;background:url(logo-mark.svg) center/contain no-repeat;display:inline-block;flex:0 0 auto}
   .word .wt{white-space:nowrap}
+  /* at page top the hero carries the full lockup, so the nav shows just the mark; the wordmark fades in on scroll */
+  header .word .wt{transition:opacity .35s ease,transform .35s ease}
+  header:not(.show) .word .wt{opacity:0;transform:translateX(-8px)}
   .word .g{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
   .minicta{font-size:14px;font-weight:620;color:#0a0a0f;background:var(--ink);padding:9px 16px;border-radius:980px;text-decoration:none;transition:.2s}
   .minicta:hover{transform:translateY(-1px);box-shadow:0 8px 24px rgba(255,255,255,.12)}
@@ -64,6 +67,14 @@
   /* ---- hero ---- */
   .hero{padding:120px 0 40px;position:relative}
   .hero .grid{display:grid;grid-template-columns:1.05fr .95fr;gap:40px;align-items:center}
+  /* hero brand lockup (animated draw-on) */
+  .herologo{display:flex;flex-direction:column;align-items:flex-start;gap:13px;margin-bottom:30px}
+  .herologo .hltile{width:58px;height:58px;display:block;flex:0 0 auto}
+  .herologo .hl-word{font-weight:700;font-size:28px;letter-spacing:-.02em;color:var(--ink);line-height:1}
+  .herologo .hl-word .g{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .dcwave{stroke-dasharray:100;stroke-dashoffset:0;animation:dcdraw 1.5s cubic-bezier(.45,0,.15,1) .25s both}
+  @keyframes dcdraw{from{stroke-dashoffset:100}to{stroke-dashoffset:0}}
+  @media (prefers-reduced-motion:reduce){.dcwave{animation:none}}
   .eyebrow{display:inline-flex;align-items:center;gap:9px;font-size:13px;font-weight:600;letter-spacing:.02em;
     color:var(--muted);border:1px solid var(--line);padding:7px 13px;border-radius:980px;background:var(--card);margin-bottom:24px}
   .eyebrow .live{width:7px;height:7px;border-radius:50%;background:var(--mint);box-shadow:0 0 0 0 rgba(52,224,180,.6);animation:pulse 2.4s infinite}
@@ -220,7 +231,7 @@
 
   footer{border-top:1px solid var(--line);padding:40px 0 60px;color:var(--faint);font-size:14px;line-height:1.7}
   footer .word{margin-bottom:14px;font-size:19px}
-  footer .word .mk{width:28px;height:28px}
+  footer .word .mk{width:28px;height:28px;background-image:url(logo-badge-static.svg)}
   .flinks{display:flex;gap:18px;flex-wrap:wrap;margin-bottom:12px}
   .flinks a{color:var(--muted);text-decoration:none;transition:.2s}
   .flinks a:hover{color:var(--ink)}
@@ -254,6 +265,17 @@
 <!-- ============ HERO ============ -->
 <section class="hero"><div class="wrap"><div class="grid">
   <div class="copy">
+    <div class="herologo">
+      <svg class="hltile" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <defs>
+          <linearGradient id="hg" x1="20" y1="66" x2="80" y2="34" gradientUnits="userSpaceOnUse"><stop stop-color="#a78bff"/><stop offset="1" stop-color="#34e0b4"/></linearGradient>
+          <linearGradient id="hgr" x1="6" y1="94" x2="94" y2="6" gradientUnits="userSpaceOnUse"><stop stop-color="#a78bff" stop-opacity=".75"/><stop offset="1" stop-color="#34e0b4" stop-opacity=".75"/></linearGradient>
+        </defs>
+        <rect x="1.75" y="1.75" width="96.5" height="96.5" rx="27" fill="#0b0b13" stroke="url(#hgr)" stroke-width="1.75"/>
+        <path class="dcwave" pathLength="100" d="M20 66 C26 66 26 54 32 54 C38 54 38 58 44 58 C50 58 50 44 56 44 C62 44 62 48 68 48 C74 48 74 34 80 34" stroke="url(#hg)" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <div class="hl-word">Daily <span class="g">Crescendo</span></div>
+    </div>
     <div class="eyebrow"><span class="live"></span> Pre-launch · for people who actually practice</div>
     <h1>Practice that <span class="g">logs itself.</span></h1>
     <p class="lede">A practice timer that lives in your iPhone's Dynamic Island, an AI recap after every session, and a recording history that's <em>yours</em> — on your device, no account, no subscription you'll forget to cancel.</p>

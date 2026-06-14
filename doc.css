@@ -73,7 +73,7 @@ header .bar{max-width:980px;margin:0 auto;padding:13px 24px;display:flex;align-i
 /* footer (shared with index) */
 footer{border-top:1px solid var(--line);padding:44px 0 64px;color:var(--faint);font-size:14px;line-height:1.8;margin-top:48px}
 footer .word{margin-bottom:14px;font-size:19px}
-footer .word .mk{width:28px;height:28px}
+footer .word .mk{width:28px;height:28px;background-image:url(logo-badge-static.svg)}
 .flinks{display:flex;gap:18px;flex-wrap:wrap;margin-bottom:14px}
 .flinks a{color:var(--muted);text-decoration:none;transition:.2s}
 .flinks a:hover{color:var(--ink)}

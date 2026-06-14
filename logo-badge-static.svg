@@ -8,14 +8,8 @@
       <stop stop-color="#a78bff" stop-opacity=".75"/>
       <stop offset="1" stop-color="#34e0b4" stop-opacity=".75"/>
     </linearGradient>
-    <style>
-      .dcw{stroke-dasharray:100;stroke-dashoffset:0;animation:dcdraw 1.5s cubic-bezier(.45,0,.15,1) .2s both}
-      @keyframes dcdraw{from{stroke-dashoffset:100}to{stroke-dashoffset:0}}
-      @media (prefers-reduced-motion:reduce){.dcw{animation:none}}
-    </style>
   </defs>
   <rect x="1.75" y="1.75" width="96.5" height="96.5" rx="27" fill="#0b0b13" stroke="url(#dcring)" stroke-width="1.75"/>
-  <path class="dcw" pathLength="100"
-        d="M20 66 C26 66 26 54 32 54 C38 54 38 58 44 58 C50 58 50 44 56 44 C62 44 62 48 68 48 C74 48 74 34 80 34"
+  <path d="M20 66 C26 66 26 54 32 54 C38 54 38 58 44 58 C50 58 50 44 56 44 C62 44 62 48 68 48 C74 48 74 34 80 34"
         stroke="url(#dc)" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>

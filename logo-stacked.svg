@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 150" fill="none" role="img" aria-label="Daily Crescendo">
+  <defs>
+    <linearGradient id="dc" x1="20" y1="66" x2="80" y2="34" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#a78bff"/>
+      <stop offset="1" stop-color="#34e0b4"/>
+    </linearGradient>
+    <linearGradient id="dcring" x1="6" y1="94" x2="94" y2="6" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#a78bff" stop-opacity=".75"/>
+      <stop offset="1" stop-color="#34e0b4" stop-opacity=".75"/>
+    </linearGradient>
+    <linearGradient id="dctext" x1="138" y1="0" x2="282" y2="0" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#a78bff"/>
+      <stop offset="1" stop-color="#34e0b4"/>
+    </linearGradient>
+  </defs>
+  <rect x="132" y="12" width="76" height="76" rx="21" fill="#0b0b13" stroke="url(#dcring)" stroke-width="1.4"/>
+  <g transform="translate(132 12) scale(0.76)">
+    <path d="M20 66 C26 66 26 54 32 54 C38 54 38 58 44 58 C50 58 50 44 56 44 C62 44 62 48 68 48 C74 48 74 34 80 34"
+          stroke="url(#dc)" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+  <text x="170" y="126" text-anchor="middle"
+        font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif"
+        font-size="30" font-weight="700" letter-spacing="-.5">
+    <tspan fill="#f5f5fa">Daily </tspan><tspan fill="url(#dctext)">Crescendo</tspan>
+  </text>
+</svg>
