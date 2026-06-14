@@ -17,20 +17,15 @@ domain. (Site URL is already set; domain is already bought.)
 
 | Placeholder | Where | Replace with |
 |-------------|-------|--------------|
-| `REPLACE_WITH_CONTACT` | all 5 pages | a real **monitored** inbox (e.g. `support@dailycrescendo.com` once it exists, or a forwarder). This receives privacy/deletion requests, so it must actually be read. |
 | `REPLACE_WITH_FORM_ENDPOINT` | `index.html` | your Formspree form URL (Step 4) |
 | `og-image.png` | add a 1200×630 image at repo root | the social-card preview image |
 | `[EFFECTIVE DATE]` | `privacy.html`, `terms.html`, `accessibility.html` | the date you publish |
 
-Already set for you: the OG/Twitter site URL (`https://dailycrescendo.com`) and the brand name throughout.
+Already set for you: the OG/Twitter site URL (`https://dailycrescendo.com`), the brand name throughout, and the support email (`support@dailycrescendo.com`).
+
+> **Action — create the support inbox:** the pages use **`support@dailycrescendo.com`** (studio standard: a per-app address that *forwards* into your main company inbox). At your domain registrar, add a free forwarding alias `support@dailycrescendo.com → your company inbox`. It must be monitored — it receives privacy/deletion requests. (Optional: set up Gmail "send as" to reply *from* it.)
 
 > **Legal:** Governing law = **Virginia** (Apex Development Studio LLC's registered state). The Terms carry a binding-arbitration + class-action-waiver clause mirrored from your lawyer-reviewed ScreenPass docs. The HIPAA/health layer was intentionally excluded. **Before you rely on these, have counsel glance at the pre-launch arbitration clause, the "founding price" wording, and a Class 9 + 41 trademark clearance for "Daily Crescendo"** (sound-alike to existing "Crescendo" software marks).
-
-Quick contact-email fill across every file:
-```bash
-cd ~/Projects/daily-crescendo
-grep -rl REPLACE_WITH_CONTACT . | xargs sed -i '' 's/REPLACE_WITH_CONTACT/support@dailycrescendo.com/g'
-```
 
 Also (highest-value asset): swap the hero placeholder block (`<div class="hero">…</div>`'s
 inner mock) for a 10-second **screen recording of the Live Activity practice timer in
