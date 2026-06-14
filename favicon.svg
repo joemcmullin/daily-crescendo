@@ -1,11 +1,15 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
   <defs>
-    <linearGradient id="g" x1="0" y1="0" x2="64" y2="64" gradientUnits="userSpaceOnUse">
-      <stop offset="0" stop-color="#a78bff"/>
+    <linearGradient id="dc" x1="22" y1="50" x2="84" y2="50" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#a78bff"/>
       <stop offset="1" stop-color="#34e0b4"/>
     </linearGradient>
   </defs>
-  <rect width="64" height="64" rx="15" fill="url(#g)"/>
-  <text x="32" y="45" font-size="40" text-anchor="middle" fill="#0a0a0f"
-        font-family="-apple-system,Helvetica,Arial,sans-serif" font-weight="700">♪</text>
+  <rect width="100" height="100" rx="24" fill="#0b0b13"/>
+  <g fill="url(#dc)">
+    <rect x="22" y="56" width="11" height="26" rx="5.5"/>
+    <rect x="39" y="46" width="11" height="36" rx="5.5"/>
+    <rect x="56" y="34" width="11" height="48" rx="5.5"/>
+    <rect x="73" y="22" width="11" height="60" rx="5.5"/>
+  </g>
 </svg>

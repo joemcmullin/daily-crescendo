@@ -54,8 +54,10 @@
   header.show{background:rgba(8,8,14,.7);backdrop-filter:blur(18px) saturate(140%);
     -webkit-backdrop-filter:blur(18px) saturate(140%);border-bottom:1px solid var(--line)}
   header .bar{max-width:var(--maxw);margin:0 auto;padding:12px 24px;display:flex;align-items:center;justify-content:space-between}
-  .word{font-weight:680;letter-spacing:-.02em;font-size:17px;display:flex;align-items:center;gap:9px}
-  .word .mk{width:22px;height:22px;border-radius:7px;background:var(--grad);display:inline-flex;align-items:center;justify-content:center;font-size:12px;color:#0a0a0f;font-weight:800}
+  .word{font-weight:700;letter-spacing:-.02em;font-size:22px;display:flex;align-items:center;gap:11px;color:var(--ink);text-decoration:none}
+  .word .mk{width:34px;height:34px;background:url(logo-mark.svg) center/contain no-repeat;display:inline-block;flex:0 0 auto}
+  .word .wt{white-space:nowrap}
+  .word .g{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
   .minicta{font-size:14px;font-weight:620;color:#0a0a0f;background:var(--ink);padding:9px 16px;border-radius:980px;text-decoration:none;transition:.2s}
   .minicta:hover{transform:translateY(-1px);box-shadow:0 8px 24px rgba(255,255,255,.12)}
 
@@ -217,7 +219,8 @@
   textarea{resize:vertical}
 
   footer{border-top:1px solid var(--line);padding:40px 0 60px;color:var(--faint);font-size:14px;line-height:1.7}
-  footer .word{margin-bottom:12px;font-size:15px}
+  footer .word{margin-bottom:14px;font-size:19px}
+  footer .word .mk{width:28px;height:28px}
   .flinks{display:flex;gap:18px;flex-wrap:wrap;margin-bottom:12px}
   .flinks a{color:var(--muted);text-decoration:none;transition:.2s}
   .flinks a:hover{color:var(--ink)}
@@ -244,7 +247,7 @@
 <div class="grain"></div>
 
 <header id="hdr"><div class="bar">
-  <div class="word"><span class="mk">♪</span> Daily Crescendo</div>
+  <div class="word"><span class="mk"></span><span class="wt">Daily <span class="g">Crescendo</span></span></div>
   <a class="minicta" href="#reserve">Reserve early access</a>
 </div></header>
 
@@ -447,7 +450,7 @@
 </div></section>
 
 <footer><div class="wrap">
-  <div class="word"><span class="mk">♪</span> Daily Crescendo</div>
+  <div class="word"><span class="mk"></span><span class="wt">Daily <span class="g">Crescendo</span></span></div>
   <nav class="flinks">
     <a href="privacy.html">Privacy</a><a href="terms.html">Terms</a>
     <a href="support.html">Support</a><a href="accessibility.html">Accessibility</a>

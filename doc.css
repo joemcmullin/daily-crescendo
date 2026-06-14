@@ -31,8 +31,10 @@ header{position:sticky;top:0;z-index:50;background:rgba(8,8,14,.72);
   backdrop-filter:blur(18px) saturate(140%);-webkit-backdrop-filter:blur(18px) saturate(140%);
   border-bottom:1px solid var(--line)}
 header .bar{max-width:980px;margin:0 auto;padding:13px 24px;display:flex;align-items:center;justify-content:space-between}
-.word{font-weight:680;letter-spacing:-.02em;font-size:17px;display:flex;align-items:center;gap:9px;color:var(--ink);text-decoration:none}
-.word .mk{width:22px;height:22px;border-radius:7px;background:var(--grad);display:inline-flex;align-items:center;justify-content:center;font-size:12px;color:#0a0a0f;font-weight:800}
+.word{font-weight:700;letter-spacing:-.02em;font-size:21px;display:flex;align-items:center;gap:11px;color:var(--ink);text-decoration:none}
+.word .mk{width:32px;height:32px;background:url(logo-mark.svg) center/contain no-repeat;display:inline-block;flex:0 0 auto}
+.word .wt{white-space:nowrap}
+.word .g{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
 .back{font-size:14px;font-weight:600;color:var(--muted);text-decoration:none;transition:.2s}
 .back:hover{color:var(--ink)}
 
@@ -70,7 +72,8 @@ header .bar{max-width:980px;margin:0 auto;padding:13px 24px;display:flex;align-i
 
 /* footer (shared with index) */
 footer{border-top:1px solid var(--line);padding:44px 0 64px;color:var(--faint);font-size:14px;line-height:1.8;margin-top:48px}
-footer .word{margin-bottom:14px;font-size:15px}
+footer .word{margin-bottom:14px;font-size:19px}
+footer .word .mk{width:28px;height:28px}
 .flinks{display:flex;gap:18px;flex-wrap:wrap;margin-bottom:14px}
 .flinks a{color:var(--muted);text-decoration:none;transition:.2s}
 .flinks a:hover{color:var(--ink)}
