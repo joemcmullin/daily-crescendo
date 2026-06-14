@@ -1,14 +1,10 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none" role="img" aria-label="Daily Crescendo">
   <defs>
-    <linearGradient id="dc" x1="10" y1="50" x2="86" y2="50" gradientUnits="userSpaceOnUse">
+    <linearGradient id="dc" x1="10" y1="72" x2="92" y2="20" gradientUnits="userSpaceOnUse">
       <stop stop-color="#a78bff"/>
       <stop offset="1" stop-color="#34e0b4"/>
     </linearGradient>
   </defs>
-  <g fill="url(#dc)">
-    <rect x="10" y="60" width="13" height="30" rx="6.5"/>
-    <rect x="31" y="46" width="13" height="44" rx="6.5"/>
-    <rect x="52" y="30" width="13" height="60" rx="6.5"/>
-    <rect x="73" y="12" width="13" height="78" rx="6.5"/>
-  </g>
+  <path d="M8 74 C17 74 17 54 26 54 C35 54 35 60 44 60 C53 60 53 38 62 38 C71 38 71 44 80 44 C87 44 87 18 94 18"
+        stroke="url(#dc)" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>
