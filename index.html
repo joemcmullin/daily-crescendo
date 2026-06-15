@@ -424,7 +424,7 @@
 <section class="reserve" id="reserve"><div class="wrap reveal">
   <div class="kick">Founding access</div>
   <h2>Reserve your founding lifetime price.</h2>
-  <p class="sub">No charge today. Three quick questions so we build the right thing, then your email — we'll message you once, when it's ready.</p>
+  <p class="sub">No charge today. Three quick questions so we build the right thing, then your name and email — we'll message you once, when it's ready.</p>
 
   <a class="btn primary" id="open" style="cursor:pointer" onclick="openForm(this)"><span>Reserve founding lifetime — 50% off →</span></a>
 
@@ -454,6 +454,9 @@
       <option value="no" selected>No — I practice myself</option>
       <option value="yes">Yes — I teach and might want to see students' practice</option>
     </select>
+
+    <label>Your name</label>
+    <input type="text" name="name" required placeholder="First and last name">
 
     <label>Email — one message, at launch. Nothing else.</label>
     <input type="email" name="email" required placeholder="you@example.com">
@@ -563,7 +566,7 @@
     fetch('https://api.getfernand.com/messenger/contact',{
       method:'POST',
       headers:{ 'Content-Type':'application/json','Accept':'application/json','X-AppId':'journey-tracker' },
-      body:JSON.stringify({ slug:'journey-tracker', name:email, email:email, subject:'Daily Crescendo — Founding reservation', message:message })
+      body:JSON.stringify({ slug:'journey-tracker', name:(fd.get('name')||'').trim()||email, email:email, subject:'Daily Crescendo — Founding reservation', message:message })
     })
       .then(function(r){ if(r.ok){ showThanks(); } else { throw new Error(); } })
       .catch(function(){ btn.disabled=false; btn.querySelector('span').textContent='Lock in my founding price'; err.classList.add('show'); });
