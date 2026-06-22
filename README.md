@@ -1,78 +1,91 @@
-# Daily Crescendo — Stage 2 waitlist / demand-validation site
+# Daily Crescendo — pre-launch landing site
 
-A trackerless, static landing page (+ Privacy / Terms / Support / Accessibility)
-for the **Daily Crescendo** music-practice app demand smoke test (Apex Studio OS,
-Stage 2). Deploys free on GitHub Pages. Source of truth lives in
-`AppOpportunities2026/candidates/music-practice-journal/stage2/`; this repo is the
-**deployment copy**.
+Pre-launch landing and waitlist site for **Daily Crescendo**, an iPhone music-practice
+journal (a timer that lives in the Dynamic Island, on-device AI session recaps, and a
+practice/recording history that stays on the device — pay once, no subscription). The
+site is pure static HTML/CSS/JS, deployed on GitHub Pages at **https://dailycrescendo.com**.
 
-**Done for you:** all 5 pages built and branded *Daily Crescendo*, `dailycrescendo.com`
-wired into the OG/social tags, `.nojekyll`, `.gitignore`, committed. **Needs your
-accounts:** fill the contact email → push → enable Pages → Formspree → point your
-domain. (Site URL is already set; domain is already bought.)
+## What's in the repo
+
+- `index.html` — single-file landing page (inline CSS + JS): animated hero with a live
+  ticking timer mock, scroll-reveal sections, a scroll-reactive header (hidden over the
+  hero, revealed past it), and the **reserve / founding-access waitlist form**.
+- `privacy.html` · `terms.html` · `support.html` · `accessibility.html` — supporting pages.
+- Animated **badge-style wave logo system**: `logo-mark.svg`, `logo-stacked.svg`,
+  `logo-badge-static.svg`, `favicon.svg`.
+- `og-card.html` + `og-image.png` — 1200×630 social/OG share card.
+- `CNAME` (`dailycrescendo.com`) and `.nojekyll` — GitHub Pages custom-domain config.
+- `Docs/email-routing.md` — pointer to the studio email-routing SOP (the contact-flow
+  source of truth lives in the Apex vault, not in this repo).
+
+There is **no build step, no framework, and no tracking/analytics** on the site.
+
+## Local development
+
+```bash
+python3 -m http.server 8765   # from the repo root, then open http://localhost:8765
+```
+
+A persistent local preview also runs at **http://localhost:8776** via the
+`com.joemcmullin.dailycrescendo` LaunchAgent.
+
+## Deploy pipeline
+
+Static-only. Pushing to `main` triggers GitHub Pages, which serves the repo root
+(`.nojekyll` disables Jekyll) and maps the `CNAME` apex domain over HTTPS.
+
+```mermaid
+flowchart LR
+    DEV["Edit index.html / pages<br/>(local)"] --> PUSH["git push origin main"]
+    PUSH --> REPO["GitHub repo<br/>joemcmullin/DailyCrescendo"]
+    REPO --> PAGES["GitHub Pages<br/>(serve root, .nojekyll)"]
+    PAGES --> CNAME["CNAME: dailycrescendo.com"]
+    CNAME --> LIVE["Live site<br/>https://dailycrescendo.com"]
+```
+
+## Reserve form & contact flow
+
+The waitlist form (`<form id="f">` in `index.html`) is submitted client-side: JS calls
+`e.preventDefault()` and `fetch`-POSTs a JSON payload to the **Fernand** headless contact
+API (`https://api.getfernand.com/messenger/contact`), which opens a support conversation
+in the Fernand helpdesk. The qualifying answers (current tracking method, practice
+frequency, switch reason, teacher flag, variant, `utm_source`) are folded into the
+message body. On success the form is replaced inline with a "You're on the list"
+confirmation; on failure it shows an error asking the visitor to email instead. There is
+**no Formspree and no backend** — the page POSTs directly to Fernand from the browser.
+
+Inbound email to **`support@dailycrescendo.com`** (used in the footer and on every
+supporting page) is forwarded into Fernand per the studio SOP. As documented in
+`Docs/email-routing.md`, this app's routing is **MX (GoDaddy DNS) → MXroute forwarder →
+Fernand**, with outbound replies sent via Postmark.
+
+```mermaid
+flowchart LR
+    subgraph "Reserve form (browser)"
+        VISITOR["Visitor fills<br/>reserve form"] --> JS["fetch POST (JSON)"]
+    end
+    JS --> FERNAND["Fernand contact API<br/>api.getfernand.com"]
+
+    subgraph "Inbound email"
+        SENDER["Email to<br/>support@dailycrescendo.com"] --> MX["GoDaddy DNS (MX)"]
+        MX --> MXR["MXroute forwarder"]
+        MXR --> FERNAND
+    end
+
+    FERNAND --> INBOX["Fernand helpdesk<br/>(support conversation)"]
+    INBOX --> REPLY["Reply via Postmark"]
+```
+
+> **Note:** the studio playbook records Daily Crescendo as a Cloudflare Email Routing
+> pilot, but the in-repo `Docs/email-routing.md` describes the live setup as
+> GoDaddy MX → MXroute → Fernand. This README reflects the in-repo doc; confirm the
+> authoritative values in the Apex vault email-routing spec before changing DNS.
+
+## Per-channel UTM
+
+The form carries a hidden `utm_source` field (`REPLACE_PER_CHANNEL`) so demand-test
+traffic can be segmented by channel. Set it per campaign before driving paid traffic.
 
 ---
 
-## Step 1 — Fill the remaining placeholders
-
-| Placeholder | Where | Replace with |
-|-------------|-------|--------------|
-| `REPLACE_WITH_FORM_ENDPOINT` | `index.html` | your Formspree form URL (Step 4) |
-| `og-image.png` | add a 1200×630 image at repo root | the social-card preview image |
-| `[EFFECTIVE DATE]` | `privacy.html`, `terms.html`, `accessibility.html` | the date you publish |
-
-Already set for you: the OG/Twitter site URL (`https://dailycrescendo.com`), the brand name throughout, and the support email (`support@dailycrescendo.com`).
-
-> **Action — create the support inbox:** the pages use **`support@dailycrescendo.com`** (studio standard: a per-app address that *forwards* into your main company inbox). At your domain registrar, add a free forwarding alias `support@dailycrescendo.com → your company inbox`. It must be monitored — it receives privacy/deletion requests. (Optional: set up Gmail "send as" to reply *from* it.)
-
-> **Legal:** Governing law = **Virginia** (Apex Development Studio LLC's registered state). The Terms carry a binding-arbitration + class-action-waiver clause mirrored from your lawyer-reviewed ScreenPass docs. The HIPAA/health layer was intentionally excluded. **Before you rely on these, have counsel glance at the pre-launch arbitration clause, the "founding price" wording, and a Class 9 + 41 trademark clearance for "Daily Crescendo"** (sound-alike to existing "Crescendo" software marks).
-
-Also (highest-value asset): swap the hero placeholder block (`<div class="hero">…</div>`'s
-inner mock) for a 10-second **screen recording of the Live Activity practice timer in
-the Dynamic Island, phone on a music stand** (`<video autoplay muted loop playsinline>`
-or a GIF). The animated mock is good enough to launch with if you don't have footage yet.
-
-## Step 2 — Push to GitHub (you're authenticated as `joemcmullin`)
-```bash
-cd ~/Projects/daily-crescendo
-gh repo create daily-crescendo --public --source=. --remote=origin --push
-```
-(Creates the public repo and pushes `main`. Web fallback: create an empty public repo
-`daily-crescendo` at github.com/new, then
-`git remote add origin https://github.com/joemcmullin/daily-crescendo.git && git push -u origin main`.)
-
-## Step 3 — Enable GitHub Pages
-```bash
-gh api -X POST repos/joemcmullin/daily-crescendo/pages -f 'source[branch]=main' -f 'source[path]=/'
-```
-Or: repo → Settings → Pages → Source = `main` / `/ (root)`.
-Live in ~1 min at **https://joemcmullin.github.io/daily-crescendo/** — open it to confirm before pointing the domain.
-
-## Step 4 — Formspree (no backend)
-1. Free account at formspree.io → New Form → copy the endpoint (`https://formspree.io/f/XXXXXXXX`).
-2. Paste it over `REPLACE_WITH_FORM_ENDPOINT` in `index.html`, commit, push.
-3. Submit the form once yourself; confirm the email + answers (`current_method`, `frequency`,
-   `switch_reason`, `is_teacher`, `utm_source`) land in the inbox. **Do this before spending on ads.**
-
-## Step 5 — Point your domain (dailycrescendo.com — already registered)
-- Rename `CNAME.example` → `CNAME`, put exactly `dailycrescendo.com` on line 1 (delete the comments), commit, push.
-- At your registrar, add DNS for the apex domain:
-  - A records → `185.199.108.153`, `185.199.109.153`, `185.199.110.153`, `185.199.111.153`
-  - `www` CNAME → `joemcmullin.github.io`
-- Repo → Settings → Pages → set custom domain `dailycrescendo.com` + check **Enforce HTTPS**.
-
-## Step 6 — Per-channel UTM links (traffic test)
-Append a different `?utm_source=` per channel so conversion segments by source:
-`?utm_source=reddit_piano` · `?utm_source=asa` · `?utm_source=meta` · `?utm_source=pianoworld` · `?utm_source=teacher_email`.
-Simplest: run one channel at a time and label the batch in your tracking sheet (`stage2/TRAFFIC.md`).
-
-## Pre-flight checklist
-- [ ] Contact email filled (monitored inbox)
-- [ ] Formspree wired; test submission received with all fields
-- [ ] Hero clip dropped in (or launch with the animated mock)
-- [ ] `og-image.png` added; `[EFFECTIVE DATE]` stamped
-- [ ] Live over HTTPS at `dailycrescendo.com`
-- [ ] Then run `stage2/TRAFFIC.md` ($100–250) + `stage2/INTERVIEW.md`
-
-When you have qualified-conversion %, reserve-click rate, and the interview read on
-Andante switch-intent, bring them back and we apply `stage2/GATE.md`.
+Built by **Apex Development Studio LLC**. Pre-launch — not yet on the App Store.
